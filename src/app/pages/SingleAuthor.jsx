@@ -7,6 +7,7 @@ import {
 } from "../store/galleries/selectors";
 import { getGalleries, setSearchUserId } from "../store/galleries/slice";
 import Button from "react-bootstrap/Button";
+import Search from "../components/Search";
 import GalleryComponent from "../components/GalleryComponent";
 
 export const SingleAuthor = (selfId) => {
@@ -43,23 +44,28 @@ export const SingleAuthor = (selfId) => {
   }
 
   return (
-    <div className="container">
-      {galleries &&
-        galleries.data
-          .filter((g) => g.user_id === id)
-          .map((gallery) => (
-            <GalleryComponent key={gallery.id} gallery={gallery} />
-          ))}
-      {galleries.current_page !== galleries.last_page && (
-        <div className="d-flex justify-content-center">
-          <Button
-            variant="outline-dark"
-            onClick={() => handlePaginate(galleries.current_page + 1)}
-          >
-            Load more
-          </Button>
-        </div>
-      )}
+    <div>
+      {" "}
+      <Search />
+      <div className="container"></div>
+      <div>
+        {galleries &&
+          galleries.data
+            .filter((g) => g.user_id === id)
+            .map((gallery) => (
+              <GalleryComponent key={gallery.id} gallery={gallery} />
+            ))}
+        {galleries.current_page !== galleries.last_page && (
+          <div className="d-flex justify-content-center">
+            <Button
+              variant="outline-dark"
+              onClick={() => handlePaginate(galleries.current_page + 1)}
+            >
+              Load more
+            </Button>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
