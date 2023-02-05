@@ -6,9 +6,9 @@ import {
   selectSearchTerm,
 } from "../store/galleries/selectors";
 import { getGalleries, setSearchUserId } from "../store/galleries/slice";
-import Button from "react-bootstrap/Button";
 import Search from "../components/Search";
 import GalleryComponent from "../components/GalleryComponent";
+import { Button } from "react-bootstrap";
 
 export const SingleAuthor = (selfId) => {
   const dispatch = useDispatch();
@@ -46,24 +46,34 @@ export const SingleAuthor = (selfId) => {
   return (
     <div>
       {" "}
-      <Search />
-      <div className="container"></div>
       <div>
-        {galleries &&
-          galleries.data
-            .filter((g) => g.user_id === id)
-            .map((gallery) => (
-              <GalleryComponent key={gallery.id} gallery={gallery} />
-            ))}
-        {galleries.current_page !== galleries.last_page && (
-          <div className="d-flex justify-content-center">
-            <Button
-              variant="outline-dark"
-              onClick={() => handlePaginate(galleries.current_page + 1)}
-            >
-              Load more
-            </Button>
+        <Search />
+      </div>
+      <div className="container">
+        {galleries?.data.length ? (
+          <div className="row">
+            <ul>
+              {galleries &&
+                galleries.data
+                  .filter((g) => g.user_id == id)
+                  .map((gallery) => (
+                    <GalleryComponent key={gallery.id} gallery={gallery} />
+                  ))}
+            </ul>
+
+            {galleries.current_page !== galleries.last_page && (
+              <div className="d-flex justify-content-center">
+                <Button
+                  variant="outline-dark"
+                  onClick={() => handlePaginate(galleries.current_page + 1)}
+                >
+                  Load more
+                </Button>
+              </div>
+            )}
           </div>
+        ) : (
+          <div>No search results found.</div>
         )}
       </div>
     </div>
